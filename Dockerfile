@@ -1,7 +1,5 @@
 FROM alpine:3.9
 
-LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
-
 ENV NGINX_VERSION 1.15.9
 
 RUN apk --no-cache add bash
