@@ -1,6 +1,7 @@
 FROM alpine:3.9
 
 ENV NGINX_VERSION 1.15.9
+ENV UPLOAD_MODULE_VERSION 2.3.0
 
 RUN apk --no-cache add bash
 
@@ -49,7 +50,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		--with-compat \
 		--with-file-aio \
 		--with-http_v2_module \
-		--add-module=/usr/src/nginx-upload-module-2.3.0 \
+		--add-module=/usr/src/nginx-upload-module-$UPLOAD_MODULE_VERSION \
 	" \
 	&& addgroup -S nginx \
 	&& adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
@@ -86,7 +87,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& tar -zxC /usr/src -f nginx.tar.gz \
 	&& rm nginx.tar.gz \
 	&& cd /usr/src/nginx-$NGINX_VERSION \
-	&& curl -fSL https://github.com/fdintino/nginx-upload-module/archive/2.3.0.tar.gz -o /usr/src/nginx_upload.tar.gz \
+	&& curl -fSL https://github.com/fdintino/nginx-upload-module/archive/$UPLOAD_MODULE_VERSION.tar.gz -o /usr/src/nginx_upload.tar.gz \
 	&& tar xvzf /usr/src/nginx_upload.tar.gz -C /usr/src/ \
 	&& ./configure $CONFIG --with-debug \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
@@ -144,7 +145,8 @@ COPY nginx.vh.default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
-RUN mkdir /upload && chown -R nginx:nginx /upload
+ENV UPLOAD_FOLDER /upload
+RUN mkdir "$UPLOAD_FOLDER" && chown nginx:nginx -R "$UPLOAD_FOLDER"
 VOLUME /upload
 
 STOPSIGNAL SIGTERM
