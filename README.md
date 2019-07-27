@@ -2,7 +2,7 @@
 
 - ENV:
    - nginx-1.15.9
-   - nginx-upload-module-1.15.9
+   - nginx-upload-module-2.3.0
 
 
 # Run
