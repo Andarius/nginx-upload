@@ -1,7 +1,7 @@
 # Upload File with Nginx upload module
 
 - ENV:
-   - nginx-1.15.9
+   - nginx-1.18.0
    - nginx-upload-module-2.3.0
 
 

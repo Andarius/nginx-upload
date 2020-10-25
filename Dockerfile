@@ -1,6 +1,6 @@
-FROM alpine:3.9
+FROM alpine:3.11
 
-ENV NGINX_VERSION 1.15.9
+ENV NGINX_VERSION 1.18.0
 ENV UPLOAD_MODULE_VERSION 2.3.0
 
 RUN apk --no-cache add bash
@@ -36,7 +36,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		--with-http_stub_status_module \
 		--with-http_auth_request_module \
 		--with-http_xslt_module=dynamic \
-		--with-http_image_filter_module=dynamic \
 		--with-http_geoip_module=dynamic \
 		--with-threads \
 		--with-stream \
@@ -93,7 +92,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& mv objs/nginx objs/nginx-debug \
 	&& mv objs/ngx_http_xslt_filter_module.so objs/ngx_http_xslt_filter_module-debug.so \
-	&& mv objs/ngx_http_image_filter_module.so objs/ngx_http_image_filter_module-debug.so \
 	&& mv objs/ngx_http_geoip_module.so objs/ngx_http_geoip_module-debug.so \
 	&& mv objs/ngx_stream_geoip_module.so objs/ngx_stream_geoip_module-debug.so \
 	&& ./configure $CONFIG \
@@ -106,7 +104,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& install -m644 html/50x.html /usr/share/nginx/html/ \
 	&& install -m755 objs/nginx-debug /usr/sbin/nginx-debug \
 	&& install -m755 objs/ngx_http_xslt_filter_module-debug.so /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so \
-	&& install -m755 objs/ngx_http_image_filter_module-debug.so /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so \
 	&& install -m755 objs/ngx_http_geoip_module-debug.so /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so \
 	&& install -m755 objs/ngx_stream_geoip_module-debug.so /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so \
 	&& ln -s ../../usr/lib/nginx/modules /etc/nginx/modules \
