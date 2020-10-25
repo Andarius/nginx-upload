@@ -4,6 +4,9 @@
    - nginx-1.18.0
    - nginx-upload-module-2.3.0
 
+# Docker Image
+
+Image available @ https://hub.docker.com/repository/docker/andarius/nginx-upload
 
 # Run
 - ```docker build -t nginx-upload:v1 . -f Dockerfile```
