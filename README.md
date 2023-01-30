@@ -1,7 +1,7 @@
 # Upload File with Nginx upload module
 
 - ENV:
-   - nginx-1.22.0-alpine
+   - nginx-1.22.1-alpine
    - nginx-upload-module-2.3.0
 
 # Docker Image
