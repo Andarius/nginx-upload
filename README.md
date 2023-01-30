@@ -9,16 +9,24 @@
 Image available @https://hub.docker.com/repository/docker/andarius/nginx-upload
 
 # Run
-
+[README.md](README.md)
 - ```sh
-  docker build -t nginx-upload:v1 . -f Dockerfile
+  docker build -t nginx-upload:dev . -f Dockerfile
   ```
   
 - ```sh
-  docker run -d -p 80:80 -p 8080:8080 --name nginx-upload nginx-upload:v1
+  docker run --rm \
+    -p 5050:5050 \
+    -v "$(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro" \
+    --name nginx-upload nginx-upload:dev
   ```
 
 # Test
-- access to the `your ip:8080` and you will see the nginx default web page
-- `curl your ip:80/upload -F "fileobj=@file path"` to upload file,
-    you can then see the uploaded file ib the docker container at the path `/tmp/nginx_upload/`
+- To uplaod a file, run:  
+```sh 
+   curl 0.0.0.0:5050/upload -F "fileobj=@$(pwd)/README.md"
+  ```
+ You can then see the uploaded file with:
+ ```sh
+ docker exec nginx-upload ls -alh /tmp/nginx_upload
+  ```
