@@ -24,9 +24,13 @@ Image available @https://hub.docker.com/repository/docker/andarius/nginx-upload
 # Test
 - To uplaod a file, run:  
 ```sh 
-   curl 0.0.0.0:5050/upload -F "fileobj=@$(pwd)/README.md"
+   curl 0.0.0.0:5050/upload -F "fileobj=@$(pwd)/README.md" -F "name=readme.md"
   ```
  You can then see the uploaded file with:
  ```sh
  docker exec nginx-upload ls -alh /tmp/nginx_upload
+  ```
+or with curl:
+ ```sh
+ curl 0.0.0.0:5050/0000000001
   ```
