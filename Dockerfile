@@ -20,6 +20,7 @@ RUN apk --update --no-cache add \
         git \
         bash
 
+
 RUN cd /opt \
     && wget -O - http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz | tar zxfv - \
     && mv /opt/nginx-$NGINX_VERSION /opt/nginx \
@@ -35,7 +36,10 @@ FROM nginx:$NGINX_VERSION-alpine as runner
 
 COPY --from=build /opt/nginx/objs/ngx_http_upload_module.so /usr/lib/nginx/modules
 
-RUN chmod -R 644 /usr/lib/nginx/modules/ngx_http_upload_module.so
+RUN apk update && apk upgrade
+# https://security.snyk.io/vuln/SNYK-ALPINE316-CURL-3179541
+RUN apk add --no-cache curl>7.83.1-r5 \
+    && chmod -R 644 /usr/lib/nginx/modules/ngx_http_upload_module.so
 
 ENV UPLOAD_FOLDER /upload
 RUN mkdir "$UPLOAD_FOLDER" && chown nginx:nginx -R "$UPLOAD_FOLDER"
