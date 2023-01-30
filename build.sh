@@ -1,5 +1,5 @@
 #!/bin/bash
-readonly VERSION='1.22-2.3'
+readonly VERSION='1.22-alpine'
 
 cd "$(dirname $0)" || exit
 
