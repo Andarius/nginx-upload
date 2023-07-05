@@ -1,7 +1,7 @@
 # Upload File with Nginx upload module
 
 - ENV:
-   - nginx-1.22.0-alpine
+   - nginx-1.22.1-alpine
    - nginx-upload-module-2.3.0
 
 # Docker Image
@@ -9,12 +9,14 @@
 Image available @https://hub.docker.com/repository/docker/andarius/nginx-upload
 
 # Run
-[README.md](README.md)
-- ```sh
+
+- Build the image:   
+  ```sh
   docker build -t nginx-upload:dev . -f Dockerfile
   ```
   
-- ```sh
+- Start the nginx server:   
+  ```sh
   docker run --rm \
     -p 5050:5050 \
     -v "$(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro" \
@@ -22,7 +24,7 @@ Image available @https://hub.docker.com/repository/docker/andarius/nginx-upload
   ```
 
 # Test
-- To uplaod a file, run:  
+- To upload a file, run:  
 ```sh 
    curl 0.0.0.0:5050/upload -F "fileobj=@$(pwd)/README.md" -F "name=readme.md"
   ```
